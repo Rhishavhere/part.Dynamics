@@ -1,6 +1,8 @@
 # Particles Dynamics and Simulations
 
-Welcome to the Particle Simulations Hub! This repository contains various particle simulation projects built using Three.js, showcasing different behaviors and interactions of particles in both 2D and 3D environments.
+This repository contains various particle simulation projects showcasing different behaviors and interactions of particles in both 2D and 3D environments.
+
+**Tech Stack** : ` HTML (Canvas) | Javascript (p5 & Threejs) | Python (pyGame)`
 
 ## Projects Overview
 
