@@ -8,6 +8,18 @@ const PARTICLE_VISUAL_SIZE = 2;
 const PARTICLE_TEXTURE_SIZE = 64; 
 const DAMPING_FACTOR = 0.5
 
+const interactionForces = {
+    'red_red': 0.1,
+    'yellow_red': 0.15,
+    'green_green': -0.7,
+    'green_red': -0.2,
+    'red_green': -0.1, 
+    'yellow_yellow': 0.1,
+    
+    'yellow_green': 0, 
+    'green_yellow': 0  
+};
+
 // --- Three.js Setup ---
 let scene, camera, renderer, controls;
 let particleGeometry, particleMaterial, particleSystem;
@@ -91,11 +103,9 @@ function init() {
         size: PARTICLE_VISUAL_SIZE,
         vertexColors: true,
         sizeAttenuation: true,
-        map: particleTexture,      // <-- Use the texture map
-        transparent: true,         // <-- Enable transparency for the texture map
-        alphaTest: 0.1,            // <-- Don't render pixels with low alpha (optional, helps edges)
-        // Optional: blending: THREE.AdditiveBlending, // For a brighter/glowing look on overlap
-        // Optional: depthWrite: false // Often used with transparent objects
+        map: particleTexture,
+        transparent: true,
+        alphaTest: 0.1,
     });
 
     // The Points object
@@ -194,16 +204,16 @@ function updateGeometryAttributes() {
 function animate() {
     requestAnimationFrame(animate);
 
-    const yellowParticles = particleGroups.yellow;
-    const redParticles = particleGroups.red;
-    const greenParticles = particleGroups.green;
+    const yellow = particleGroups.yellow;
+    const red = particleGroups.red;
+    const green = particleGroups.green;
 
-    applyRule(redParticles, redParticles, 0.1);
-    applyRule(yellowParticles, redParticles, 0.15);
-    applyRule(greenParticles, greenParticles, -0.7);
-    applyRule(greenParticles, redParticles, -0.2);
-    applyRule(redParticles, greenParticles, -0.1);
-    applyRule(yellowParticles, yellowParticles, 0.1);
+    applyRule(red, red, interactionForces['red_red']);
+    applyRule(yellow, red, interactionForces['yellow_red']);
+    applyRule(green, green, interactionForces['green_green']);
+    applyRule(green, red, interactionForces['green_red']);
+    applyRule(red, green, interactionForces['red_green']);
+    applyRule(yellow, yellow, interactionForces['yellow_yellow']);
 
     updateGeometryAttributes();
     controls.update();
