@@ -4,8 +4,9 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 // --- Simulation Parameters ---
 const WORLD_SIZE = 500;
 const PARTICLE_COUNT_PER_GROUP = 1000;
-const PARTICLE_VISUAL_SIZE = 4; // Slightly larger perhaps for circles
-const PARTICLE_TEXTURE_SIZE = 64; // Power of 2 is often good
+const PARTICLE_VISUAL_SIZE = 2; 
+const PARTICLE_TEXTURE_SIZE = 64; 
+const DAMPING_FACTOR = 0.5
 
 // --- Three.js Setup ---
 let scene, camera, renderer, controls;
@@ -14,6 +15,11 @@ let positionAttribute, colorAttribute;
 
 // --- Simulation Data ---
 const particles = [];
+const particleGroups = {
+    yellow: [],
+    red: [],
+    green: [],
+}
 const colors = {
     yellow: new THREE.Color("yellow"),
     red: new THREE.Color("red"),
@@ -97,9 +103,9 @@ function init() {
     scene.add(particleSystem);
 
     // --- Create Particle Data ---
-    createGroup(PARTICLE_COUNT_PER_GROUP, colors.yellow);
-    createGroup(PARTICLE_COUNT_PER_GROUP, colors.red);
-    createGroup(PARTICLE_COUNT_PER_GROUP, colors.green);
+    createGroup(PARTICLE_COUNT_PER_GROUP, colors.yellow, 'yellow');
+    createGroup(PARTICLE_COUNT_PER_GROUP, colors.red, 'red');
+    createGroup(PARTICLE_COUNT_PER_GROUP, colors.green, 'green');
 
     updateGeometryAttributes(); // Initial population
 
@@ -111,26 +117,26 @@ function init() {
 }
 
 // --- Particle Data Structure and Creation ---
-// createParticle, randomCoord, createGroup functions remain the same
+
 function createParticle(x, y, z, color) {
     return { x: x, y: y, z: z, vx: 0, vy: 0, vz: 0, color: color };
 }
 function randomCoord() {
     return (Math.random() - 0.5) * WORLD_SIZE;
 }
-function createGroup(number, color) {
-    const group = [];
+function createGroup(number, color, groupName) {
+    // const group = [];
     for (let i = 0; i < number; i++) {
         const p = createParticle(randomCoord(), randomCoord(), randomCoord(), color);
-        group.push(p);
+        // group.push(p);
         particles.push(p);
+        particleGroups[groupName].push(p);
     }
-    // return group; // Still not strictly needed here
+    // return group; // Not strictly needed 
 }
 
 
-// --- Simulation Logic (Adapted for 3D and Centered World) ---
-// applyRule function remains the same
+// --- Simulation Logic ---
 function applyRule(particles1, particles2, g) {
     const halfWorldSize = WORLD_SIZE / 2;
     for (let i = 0; i < particles1.length; i++) {
@@ -152,9 +158,9 @@ function applyRule(particles1, particles2, g) {
                 }
             }
         }
-        p1.vx = (p1.vx + fx) * 0.5;
-        p1.vy = (p1.vy + fy) * 0.5;
-        p1.vz = (p1.vz + fz) * 0.5;
+        p1.vx = (p1.vx + fx) * DAMPING_FACTOR;
+        p1.vy = (p1.vy + fy) * DAMPING_FACTOR;
+        p1.vz = (p1.vz + fz) * DAMPING_FACTOR;
         p1.x += p1.vx;
         p1.y += p1.vy;
         p1.z += p1.vz;
@@ -167,7 +173,7 @@ function applyRule(particles1, particles2, g) {
 }
 
 // --- Update Geometry ---
-// updateGeometryAttributes function remains the same
+
 function updateGeometryAttributes() {
     for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
@@ -184,13 +190,13 @@ function updateGeometryAttributes() {
 }
 
 // --- Animation Loop ---
-// animate function remains the same
+
 function animate() {
     requestAnimationFrame(animate);
 
-    const yellowParticles = particles.filter(p => p.color === colors.yellow);
-    const redParticles = particles.filter(p => p.color === colors.red);
-    const greenParticles = particles.filter(p => p.color === colors.green);
+    const yellowParticles = particleGroups.yellow;
+    const redParticles = particleGroups.red;
+    const greenParticles = particleGroups.green;
 
     applyRule(redParticles, redParticles, 0.1);
     applyRule(yellowParticles, redParticles, 0.15);
@@ -205,7 +211,7 @@ function animate() {
 }
 
 // --- Window Resize Handler ---
-// onWindowResize function remains the same
+
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
