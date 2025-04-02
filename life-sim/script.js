@@ -2,9 +2,9 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 // --- Simulation Parameters ---
-const WORLD_SIZE = 500; // Simulation area size (now essentially width/height)
+const WORLD_SIZE = 500;
 const PARTICLE_COUNT_PER_GROUP = 500;
-const PARTICLE_VISUAL_SIZE = 4; // Adjust size as needed for 2D view
+const PARTICLE_VISUAL_SIZE = 4;
 const PARTICLE_TEXTURE_SIZE = 64;
 
 // --- Three.js Setup ---
@@ -20,7 +20,7 @@ const colors = {
     green: new THREE.Color("green")
 };
 
-// --- Helper function to create a circle texture ---
+// --- Circle texture ---
 function createCircleTexture(size, color = 'white') {
     const canvas = document.createElement('canvas');
     canvas.width = size;
@@ -54,7 +54,6 @@ function init() {
         1000                       // far clipping plane
     );
     camera.position.z = 10; // Position the camera looking along the Z axis
-    // No lookAt needed if camera is at default orientation looking down -Z
 
     // Renderer
     renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -66,8 +65,7 @@ function init() {
     controls.enableRotate = false;      // Disable rotation for 2D view
     controls.enableDamping = true;
     controls.dampingFactor = 0.1;
-    controls.screenSpacePanning = true; // Pan in screen space (more intuitive for 2D)
-    // Adjust zoom speed if needed
+    controls.screenSpacePanning = true;
     // controls.zoomSpeed = 1.2;
 
     // --- Particle System Setup (Geometry still needs Z component for Three.js) ---
@@ -148,7 +146,7 @@ function applyRule(particles1, particles2, g) {
     for (let i = 0; i < particles1.length; i++) {
         let fx = 0;
         let fy = 0;
-        // No Z component needed
+        // No Z component 
 
         const p1 = particles1[i];
 
@@ -258,5 +256,4 @@ function onWindowResize() {
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-// --- Start ---
 init();

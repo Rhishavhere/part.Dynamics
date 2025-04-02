@@ -7,9 +7,20 @@
     <style>
         body { margin: 0; overflow: hidden; }
         canvas { display: block; }
+        #info {
+            position: absolute;
+            top: 10px;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            z-index: 100; /* Ensure info text is above the canvas */
+        }
     </style>
 </head>
 <body>
+  <div id="info">Particles Simulating Simple Life | RMB to pan, Scroll to zoom</div>
     <script type="importmap">
         {
             "imports": {
@@ -18,6 +29,6 @@
             }
         }
     </script>
-    <script type="module" src="script.js"></script>
+    <script type="module" src="script1.js"></script>
 </body>
 </html>

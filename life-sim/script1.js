@@ -4,7 +4,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 // --- Simulation Parameters ---
 const WORLD_SIZE = 500;
 const PARTICLE_COUNT_PER_GROUP = 1000;
-const PARTICLE_VISUAL_SIZE = 2; // Slightly larger perhaps for circles
+const PARTICLE_VISUAL_SIZE = 4; // Slightly larger perhaps for circles
 const PARTICLE_TEXTURE_SIZE = 64; // Power of 2 is often good
 
 // --- Three.js Setup ---
@@ -66,13 +66,13 @@ function init() {
 
     // --- Particle System Setup ---
     particleGeometry = new THREE.BufferGeometry();
-    const totalParticles = PARTICLE_COUNT_PER_GROUP * 2;
+    const totalParticles = PARTICLE_COUNT_PER_GROUP * 3;
 
-    const positions = new Float32Array(totalParticles * 2);
-    const colorsAttrib = new Float32Array(totalParticles * 2);
+    const positions = new Float32Array(totalParticles * 3);
+    const colorsAttrib = new Float32Array(totalParticles * 3);
 
-    particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 2));
-    particleGeometry.setAttribute('color', new THREE.BufferAttribute(colorsAttrib, 2));
+    particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    particleGeometry.setAttribute('color', new THREE.BufferAttribute(colorsAttrib, 3));
 
     positionAttribute = particleGeometry.getAttribute('position');
     colorAttribute = particleGeometry.getAttribute('color');
