@@ -3,8 +3,8 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 // --- Simulation Parameters ---
 const WORLD_SIZE = 500;
-const PARTICLE_COUNT_PER_GROUP = 500;
-const PARTICLE_VISUAL_SIZE = 4;
+const PARTICLE_COUNT_PER_GROUP = 1000;
+const PARTICLE_VISUAL_SIZE = 2;
 const PARTICLE_TEXTURE_SIZE = 64;
 
 // --- Three.js Setup ---
