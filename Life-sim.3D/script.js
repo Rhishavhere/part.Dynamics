@@ -38,7 +38,7 @@ const colors = {
     green: new THREE.Color("green")
 };
 
-// --- Helper function to create a circle texture ---
+// --- create a circle texture ---
 function createCircleTexture(size, color = 'white') {
     const canvas = document.createElement('canvas');
     canvas.width = size;
@@ -52,9 +52,9 @@ function createCircleTexture(size, color = 'white') {
     context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
     context.fillStyle = color;
     context.fill();
-    // The canvas background is transparent by default
 
-    return new THREE.CanvasTexture(canvas); // Create Three.js texture from canvas
+
+    return new THREE.CanvasTexture(canvas); 
 }
 
 // --- Initialization ---
