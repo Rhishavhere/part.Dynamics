@@ -1,4 +1,4 @@
-# Particles Dynamics and Simulations
+# Particle-Based Cellular Simulation
 
 This repository contains various particle simulation projects showcasing different behaviors and interactions of particles in both 2D and 3D environments.
 
